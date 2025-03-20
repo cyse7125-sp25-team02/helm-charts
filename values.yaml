@@ -13,7 +13,7 @@ image:
     pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 3000
 
 resources:
