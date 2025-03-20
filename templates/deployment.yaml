@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-app
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "api-server.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        {{- include "api-server.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}-sa
+      imagePullSecrets:
+        - name: {{ .Release.Name }}-docker-credentials
+      initContainers:
+        - name: db-migrate
+          image: "karanthakkar09/database-migration:latest"
+          imagePullPolicy: Always
+          command: ["flyway", "migrate"]
+          env:
+            - name: FLYWAY_URL
+              value: "jdbc:postgresql://{{ .Release.Name }}-postgres:5432/{{ .Values.postgres.dbName }}"
+            - name: FLYWAY_USER
+              value: {{ .Values.postgres.dbUser | quote }}
+            - name: FLYWAY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-server-secrets
+                  key: POSTGRES_PASSWORD
+            - name: FLYWAY_DEFAULT_SCHEMA
+              value: {{ .Values.postgres.dbschema | quote }}
+            - name: FLYWAY_CREATE_SCHEMAS
+              value: "true"
+            - name: FLYWAY_CONNECT_RETRIES
+              value: "60"
+            - name: FLYWAY_VALIDATE_MIGRATION_NAMING
+              value: "true"
+      containers:
+        - name: api-server
+          image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
+          imagePullPolicy: {{ .Values.image.app.pullPolicy }}
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+          env:
+            - name: DB_HOST
+              value: {{ .Release.Name }}-postgres
+            - name: DB_NAME
+              value: {{ .Values.postgres.dbName | quote }}
+            - name: DB_PORT
+              value: {{ .Values.postgres.dbPort | quote }}
+            - name: DB_USER
+              value: {{ .Values.postgres.dbUser | quote }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-server-secrets
+                  key: POSTGRES_PASSWORD
+            - name: GCS_BUCKET_NAME
+              value: {{ .Values.gcs.GCS_BUCKET_NAME | quote }}
+            - name: GCS_CREDENTIALS_FILE
+              value: "/etc/gcs/gcs-credentials.json"  # Path inside container
+          volumeMounts:
+            - name: gcs-credentials
+              mountPath: /etc/gcs
+              readOnly: true
+          resources:
+            {{- toYaml .Values.resources.app | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: gcs-credentials
+          secret:
+            secretName: {{ .Release.Name }}-gcs-credentials
+            items:
+              - key: gcs-credentials.json
+                path: gcs-credentials.json

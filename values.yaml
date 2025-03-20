@@ -1,0 +1,44 @@
+namespace: api-server
+
+replicaCount: 1
+
+image:
+  app:
+    repository: "karanthakkar09/api-server"
+    tag: "latest"
+    pullPolicy: Always
+  postgres:
+    repository: postgres
+    tag: "15"
+    pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3000
+
+resources:
+  app:
+    requests:
+      memory: "256Mi"
+    limits:
+      memory: "512Mi"
+  postgres:
+    requests:
+      memory: "512Mi"
+    limits:
+      memory: "1Gi"
+
+config:
+  app:
+    env: "production"
+    logLevel: "info"
+
+postgres:
+  dbName: "api"
+  dbUser: "admin"
+  dbschema: "api"
+  dbPort: "5432"
+
+gcs:
+  GCS_BUCKET_NAME: "csye7125-trace-data"
+
