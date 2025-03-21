@@ -33,3 +33,5 @@ Thumbs.db
 secrets.yaml
 docker-credentials.yaml
 gcs-credentials.yaml
+
+package-lock.json
