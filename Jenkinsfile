@@ -3,7 +3,14 @@ pipeline {
 
     // Environment variables for the pipeline
     environment {
-        GITHUB_TOKEN = credentials('github-token') // Store your GitHub token in Jenkins credentials
+        withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+                sh '''
+                    git remote set-url origin "https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/cyse7125-sp25-team02/helm-charts.git"
+                    git fetch --no-tags origin master:master
+                    git fetch origin pull/${CHANGE_ID}/head:PR-${CHANGE_ID}
+                    git checkout PR-${CHANGE_ID}
+                '''
+            }
         CHART_NAME = 'api-server' // From your Chart.yaml
         CHART_PATH = '.' // Root of the chart
     }
