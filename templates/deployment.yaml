@@ -16,7 +16,6 @@ spec:
       labels:
         {{- include "api-server.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ .Release.Name }}-sa
       imagePullSecrets:
         - name: {{ .Release.Name }}-docker-credentials
       initContainers:

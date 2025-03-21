@@ -22,7 +22,6 @@ spec:
         app.kubernetes.io/managed-by: "Helm"
         app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     spec:
-      serviceAccountName: {{ .Release.Name }}-sa
       containers:
         - name: postgres
           image: {{ .Values.image.postgres.repository }}:{{ .Values.image.postgres.tag }}
