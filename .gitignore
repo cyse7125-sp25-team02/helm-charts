@@ -28,3 +28,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# secrets
+secrets.yaml
+docker-credentials.yaml
+gcs-credentials.yaml

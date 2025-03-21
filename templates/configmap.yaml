@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "api-server.labels" . | nindent 4 }}
+data:
+  ENV: {{ .Values.config.app.env | quote }}
+  LOG_LEVEL: {{ .Values.config.app.logLevel | quote }}

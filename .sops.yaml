@@ -1,0 +1,4 @@
+creation_rules:
+  - path_regex: .*\.yaml$
+    encrypted_regex: "^(stringData)$"
+    gcp_kms: projects/silicon-works-449817-n7/locations/us-east1/keyRings/csye7125/cryptoKeys/sops
