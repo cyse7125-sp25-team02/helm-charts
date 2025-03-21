@@ -14,10 +14,21 @@
           "onlyUpdateVersion": true
         }
       ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            {
+              "path": "./Chart.yaml"
+            }
+          ]
+        }
+      ],
       "@semantic-release/github"
     ]
   },
   "devDependencies": {
+    "@semantic-release/git": "^10.0.1",
     "semantic-release": "^24.2.3",
     "semantic-release-helm": "^2.2.0"
   }
