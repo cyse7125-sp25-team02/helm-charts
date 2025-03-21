@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    environment {
+        GITHUB_TOKEN = credentials('github-token')
+        CHART_NAME = 'api-server'
+        CHART_PATH = '.'
+    }
+
+    stages {
+        stage('Helm Lint') {
+            steps {
+                script {
+                    sh "helm lint ${CHART_PATH}"
+                }
+            }
+        }
+        
+        stage('Helm Template') {
+            steps {
+                script {
+                    sh "helm template ${CHART_NAME} ${CHART_PATH}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
