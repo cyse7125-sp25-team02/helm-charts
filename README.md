@@ -21,3 +21,11 @@ gcloud container clusters get-credentials dev-gke-cluster \
   --region us-east1 \
   --project <project-id>
 ```
+
+## KSA and GSA setup
+```
+gcloud iam service-accounts add-iam-policy-binding \
+  <BUCKET_SERVICE_ACCOUNT>@<PROJECT_ID>-n7.iam.gserviceaccount.com \
+  --role roles/iam.workloadIdentityUser \
+  --member "serviceAccount:<PROJECT_ID>-n7.svc.id.goog[api-server/my-release-ksa]"
+  ```
