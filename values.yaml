@@ -41,4 +41,4 @@ postgres:
 
 gcs:
   GCS_BUCKET_NAME: "csye7125-trace-data"
-
+  GCS_SERVICE_ACCOUNT: "dev-api-server-gcs@silicon-works-449817-n7.iam.gserviceaccount.com"
