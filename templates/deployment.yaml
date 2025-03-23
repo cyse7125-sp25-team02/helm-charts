@@ -21,8 +21,8 @@ spec:
         - name: {{ .Release.Name }}-docker-credentials
       initContainers:
         - name: db-migrate
-          image: "karanthakkar09/database-migration:latest"
-          imagePullPolicy: Always
+          image: {{ .Values.image.database.repository }}:{{ .Values.image.database.tag }}
+          imagePullPolicy: {{ .Values.image.database.pullPolicy}}
           command: ["flyway", "migrate"]
           env:
             - name: FLYWAY_URL
