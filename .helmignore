@@ -22,4 +22,4 @@
 *.tmproj
 .vscode/
 
-secrets/*.yaml
+secrets/*.enc.yaml
