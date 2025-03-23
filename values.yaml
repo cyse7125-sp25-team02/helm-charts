@@ -7,6 +7,10 @@ image:
     repository: "karanthakkar09/api-server"
     tag: "latest"
     pullPolicy: Always
+  database:
+    repository: "karanthakkar09/database-migration"
+    tag: "latest"
+    pullPolicy: Always
   postgres:
     repository: postgres
     tag: "15"
