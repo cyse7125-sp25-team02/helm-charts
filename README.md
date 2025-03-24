@@ -5,7 +5,7 @@
 - Helm 3.x
 - SOPS with GCP KMS configured
 - GKE cluster
-- Docker images pushed to Docker Hub
+- Docker images pushed to Docker Hub  
 
 ## Setup SOPS
 
