@@ -6,7 +6,7 @@
 - SOPS with GCP KMS configured
 - GKE cluster
 - Docker images pushed to Docker Hub
-
+s
 ## Setup SOPS
 
 1. Configure GCP KMS key
