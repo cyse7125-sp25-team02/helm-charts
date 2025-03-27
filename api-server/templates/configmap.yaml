@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-config
   namespace: {{ .Values.appNamespace }}
   labels:
-    {{- include "test-server.labels" . | nindent 4 }}
+    {{- include "api-server.labels" . | nindent 4 }}
 data:
   ENV: {{ .Values.config.app.env | quote }}
   LOG_LEVEL: {{ .Values.config.app.logLevel | quote }}

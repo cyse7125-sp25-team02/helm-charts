@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-postgres-access
   namespace: {{ .Values.dbNamespace }}
   labels:
-    {{- include "test-server.labels" . | nindent 4 }}
+    {{- include "api-server.labels" . | nindent 4 }}
 spec:
   podSelector:
     matchLabels:

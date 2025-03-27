@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-app
   namespace: {{ .Values.appNamespace }}
   labels:
-    {{- include "test-server.labels" . | nindent 4 }}
+    {{- include "api-server.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "test-server.labels" . | nindent 8 }}
+        {{- include "api-server.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ .Release.Name }}-ksa
       imagePullSecrets:
@@ -43,7 +43,7 @@ spec:
             - name: FLYWAY_VALIDATE_MIGRATION_NAMING
               value: "true"
       containers:
-        - name: test-server
+        - name: api-server
           image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
           imagePullPolicy: {{ .Values.image.app.pullPolicy }}
           ports:
