@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GITHUB_TOKEN = credentials('github-token')
-        CHART_NAME = 'api-server'
+        CHART_NAME = 'test-server'
         CHART_PATH = '.'
     }
 

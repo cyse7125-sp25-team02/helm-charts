@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-postgres
   namespace: {{ .Values.dbNamespace }}
   labels:
-    {{- include "api-server.labels" . | nindent 4 }}
+    {{- include "test-server.labels" . | nindent 4 }}
 spec:
   serviceName: {{ .Release.Name }}-postgres
   replicas: 1

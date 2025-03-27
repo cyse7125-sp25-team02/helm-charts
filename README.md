@@ -28,7 +28,7 @@ gcloud container clusters get-credentials dev-gke-cluster \
 gcloud iam service-accounts add-iam-policy-binding \
   <BUCKET_SERVICE_ACCOUNT>@<PROJECT_ID>-n7.iam.gserviceaccount.com \
   --role roles/iam.workloadIdentityUser \
-  --member "serviceAccount:<PROJECT_ID>-n7.svc.id.goog[api-server/my-release-ksa]"
+  --member "serviceAccount:<PROJECT_ID>-n7.svc.id.goog[test-server/my-release-ksa]"
 ```
 
 ## Steps to run helm chart
@@ -37,19 +37,19 @@ gcloud iam service-accounts add-iam-policy-binding \
    Note: First delete if there's existing namespace with same name
 
 ```bash
-kubectl delete namespace api-server
+kubectl delete namespace test-server
 ```
 
 ```bash
-kubectl create namespace api-server
+kubectl create namespace test-server
 ```
 
 2. Apply label and annotation to namespace
 
 ```bash
-kubectl label namespace api-server app.kubernetes.io/managed-by=Helm
-kubectl annotate namespace api-server meta.helm.sh/release-name=api-server
-kubectl annotate namespace api-server meta.helm.sh/release-namespace=api-server
+kubectl label namespace test-server app.kubernetes.io/managed-by=Helm
+kubectl annotate namespace test-server meta.helm.sh/release-name=test-server
+kubectl annotate namespace test-server meta.helm.sh/release-namespace=test-server
 ```
 
 3. Add secrets to namespace
@@ -62,13 +62,13 @@ sops -d secrets/docker-credentials.enc.yaml > templates/docker-credentials.yaml
 4. Install helm chart
 
 ```bash
-helm install api-server . \
-  --namespace api-server \
+helm install test-server . \
+  --namespace test-server \
   --values values.yaml
 ```
 
 5. Check the resources
 
 ```bash
-kubectl get all -n api-server
+kubectl get all -n test-server
 ```
