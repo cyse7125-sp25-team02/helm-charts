@@ -29,9 +29,5 @@ Thumbs.db
 # Logs
 *.log
 
-# secrets
-secrets.yaml
-docker-credentials.yaml
-gcs-credentials.yaml
-
+values.yaml
 package-lock.json

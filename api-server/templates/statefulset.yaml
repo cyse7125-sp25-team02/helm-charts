@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}-postgres
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.dbNamespace }}
   labels:
     {{- include "api-server.labels" . | nindent 4 }}
 spec:
@@ -12,8 +12,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ .Chart.Name }}-postgres
       app.kubernetes.io/instance: {{ .Release.Name }}
-      app.kubernetes.io/managed-by: "Helm"
-      app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
   template:
     metadata:
       labels:
@@ -22,6 +20,8 @@ spec:
         app.kubernetes.io/managed-by: "Helm"
         app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     spec:
+      imagePullSecrets:
+        - name: {{ .Release.Name }}-docker-credentials
       containers:
         - name: postgres
           image: {{ .Values.image.postgres.repository }}:{{ .Values.image.postgres.tag }}
@@ -36,7 +36,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-secrets
+                  name: {{ .Release.Name }}-db-secrets
                   key: POSTGRES_PASSWORD
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
