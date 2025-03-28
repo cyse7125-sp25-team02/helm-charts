@@ -5,6 +5,7 @@ pipeline {
         GITHUB_TOKEN = credentials('github-token')
         CHART_NAME = 'api-server'
         CHART_PATH = './api-server'
+        PATH = "${env.WORKSPACE}/bin:$PATH"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-jenkins-sops-key')
     }
 
@@ -13,11 +14,13 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        # Create a bin directory in the workspace
+                        mkdir -p ${WORKSPACE}/bin
                         if ! command -v sops &> /dev/null; then
                             echo "Installing SOPS..."
                             curl -LO https://github.com/mozilla/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64
                             chmod +x sops-v3.8.1.linux.amd64
-                            mv sops-v3.8.1.linux.amd64 /usr/local/bin/sops
+                            mv sops-v3.8.1.linux.amd64 ${WORKSPACE}/bin/sops
                         fi
                         sops --version
                     '''
