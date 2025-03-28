@@ -18,7 +18,7 @@ spec:
         app.kubernetes.io/name: {{ .Chart.Name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      serviceAccountName: {{ .Values.namespace | quote }}-ksa
+      serviceAccountName: {{ .Release.Name }}-ksa
       imagePullSecrets:
         - name: {{ .Release.Name }}-docker-credentials
       containers:
