@@ -53,11 +53,7 @@ spec:
               - key: app.kubernetes.io/name
                 operator: In
                 values:
-                - {{ .Chart.Name }}-postgres  # Matches the DB StatefulSet
-              - key: app.kubernetes.io/instance
-                operator: In
-                values:
-                - {{ .Release.Name }}  # Ensures the same Helm release
+                - {{ .Values.apiServerNamespace }}-postgres  # Matches the DB StatefulSet
             topologyKey: "topology.kubernetes.io/zone"  # Same zone (e.g., us-east1-b)
         # Pod Anti-Affinity (Required): Must not run on the same node as another operator pod
         podAntiAffinity:
