@@ -5,8 +5,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.2
-    meta.helm.sh/release-name: {{ .Release.Name }}
-    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+    meta.helm.sh/release-name: db-backup-operator
+    meta.helm.sh/release-namespace: default
   name: backupdatabaseschemas.backupschema.jkops.me
 spec:
   group: backupschema.jkops.me
