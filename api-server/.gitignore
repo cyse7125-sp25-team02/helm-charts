@@ -29,5 +29,5 @@ Thumbs.db
 # Logs
 *.log
 
-# values.yaml
+values.yaml
 package-lock.json
