@@ -11,7 +11,7 @@ spec:
   dbPasswordSecretKey: "POSTGRES_PASSWORD"
   dbName: {{ .Values.dbSecrets.DB_NAME | quote }} # Replace with your database name
   dbSchema: {{ .Values.dbSecrets.DB_SCHEMA | quote }} # Replace with your schema name if different
-  dbPort: {{ .Values.dbSecrets.DB_PORT | quote }} # Default PostgreSQL port
+  dbPort: {{ .Values.dbSecrets.DB_PORT }} # Default PostgreSQL port
   gcsBucket: "db-backup-schema" # Replace with your GCS bucket name
   kubeServiceAccount: {{ .Release.Name }}-ksa # Operator’s ServiceAccount
   gcpServiceAccount: {{ .Values.gcs.GCS_SERVICE_ACCOUNT | quote }} # Replace with your GCP SA
