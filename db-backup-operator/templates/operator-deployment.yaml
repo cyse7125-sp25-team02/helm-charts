@@ -44,3 +44,28 @@ spec:
               port: 8081
             initialDelaySeconds: 15
             periodSeconds: 5
+      affinity:
+        # Pod Affinity (Required): Must run in the same zone as the database pods
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                - {{ .Chart.Name }}-postgres  # Matches the DB StatefulSet
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                - {{ .Release.Name }}  # Ensures the same Helm release
+            topologyKey: "topology.kubernetes.io/zone"  # Same zone (e.g., us-east1-b)
+        # Pod Anti-Affinity (Required): Must not run on the same node as another operator pod
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                - {{ .Chart.Name }}  # Matches the operator itself
+            topologyKey: "kubernetes.io/hostname"  # Different nodes
