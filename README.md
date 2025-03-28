@@ -72,3 +72,10 @@ helm install api-server . \
 ```bash
 kubectl get all -n api-server
 ```
+
+## Note:
+gcloud iam service-accounts add-iam-policy-binding \
+  <GCS_SERVICE_ACCOUNT> \
+  --project silicon-works-449817-n7 \
+  --role roles/iam.workloadIdentityUser \
+  --member "serviceAccount:<PROJECT_ID>.svc.id.goog[test-server-app/test-server-ksa]"
