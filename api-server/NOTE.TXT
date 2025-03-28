@@ -1,0 +1,12 @@
+Thank you for installing {{ .Chart.Name }}!
+
+Your release is named {{ .Release.Name }}.
+
+To verify the deployment:
+- Check the app namespace: kubectl get all -n {{ .Values.appNamespace }}
+- Check the db namespace: kubectl get all -n {{ .Values.dbNamespace }}
+- View app logs: kubectl logs test-server-app-<pod-name> -n {{ .Values.appNamespace }}
+
+If you encounter GCS 403 errors:
+- Ensure Workload Identity is enabled on your GKE cluster.
+- Verify IAM bindings for the KSA and GSA (see NOTE.TXT in the chart root for details).
