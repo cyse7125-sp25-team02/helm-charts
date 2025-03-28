@@ -5,21 +5,52 @@ pipeline {
         GITHUB_TOKEN = credentials('github-token')
         CHART_NAME = 'api-server'
         CHART_PATH = './api-server'
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-jenkins-sops-key')
     }
 
     stages {
-        stage('Helm Lint') {
+        stage('Install SOPS') {
             steps {
                 script {
-                    sh "helm lint ${CHART_PATH}"
+                    sh '''
+                        if ! command -v sops &> /dev/null; then
+                            echo "Installing SOPS..."
+                            curl -LO https://github.com/mozilla/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64
+                            chmod +x sops-v3.8.1.linux.amd64
+                            sudo mv sops-v3.8.1.linux.amd64 /usr/local/bin/sops
+                        fi
+                        sops --version
+                    '''
                 }
             }
         }
-        
+
+        stage('Install helm-secrets') {
+            steps {
+                script {
+                    sh '''
+                        if ! helm plugin list | grep -q secrets; then
+                            echo "Installing helm-secrets plugin..."
+                            helm plugin install https://github.com/jkroepke/helm-secrets
+                        fi
+                        helm plugin list
+                    '''
+                }
+            }
+        }
+
+        stage('Helm Lint') {
+            steps {
+                script {
+                    sh "helm secrets lint ${CHART_PATH} -f ${CHART_PATH}/values.enc.yaml"
+                }
+            }
+        }
+
         stage('Helm Template') {
             steps {
                 script {
-                    sh "helm template ${CHART_NAME} ${CHART_PATH}"
+                    sh "helm secrets template ${CHART_NAME} ${CHART_PATH} -f ${CHART_PATH}/values.enc.yaml"
                 }
             }
         }

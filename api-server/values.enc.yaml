@@ -1,0 +1,62 @@
+appNamespace: ENC[AES256_GCM,data:nFhEtYt9xQl+UQK7eX4=,iv:ATvHCPxRDk1h2gNnYQNaDlu6Cvxz4pX6i27ngpUJTOY=,tag:gjSde9X1TYiVhq0fio67Qw==,type:str]
+dbNamespace: ENC[AES256_GCM,data:/Fw6hjhK/uv5epah7g==,iv:DFP5z9zLaHk8Vw3O8HusVrt4JNM1kA8c3B+rc8T7w2Q=,tag:obf6LfWM7KbMfjOo28FzBA==,type:str]
+replicaCount: ENC[AES256_GCM,data:RQ==,iv:LtuhpAk7uNwmdQCFL1ibqzHgdnrtjRownJSoaDaJj+0=,tag:Sz1Q4VDqQiZYWAUO06tfBw==,type:int]
+image:
+    app:
+        repository: ENC[AES256_GCM,data:OWzuAI/yMb6jfyC2rcfOoQVJcLRpGBkaew==,iv:lpR8GCt7RkeKigpcn0ttFvXmwiPDmKxRAYrr56LbaqQ=,tag:PgDQBUWIWLvMOO24Da4K/g==,type:str]
+        tag: ENC[AES256_GCM,data:SW5nLFnX,iv:my2dBzdwv40hXInLxkPPnSsnReV55y4jEKwhVf9K4sc=,tag:Wnt0YpPjidAAlIMFZJ8Hyw==,type:str]
+        pullPolicy: ENC[AES256_GCM,data:QIIownMq,iv:tPJwCZB9sFzJ1O3FJ5CO2/TCt87NP9ggIBGoG96SKUs=,tag:qeN7n+uWRQ800fT13IrW5w==,type:str]
+    database:
+        repository: ENC[AES256_GCM,data:9kNNvkmxpEdWkFhqysVcshP9hs6uK6DmJOufEaeYQ5eE,iv:00S+YGqpyr30KzFbr/pY9Ebux12vJbJQ9XXXx1LJuOE=,tag:B5dD0ddQhicuuzBWBmbVmg==,type:str]
+        tag: ENC[AES256_GCM,data:NNsF5R54,iv:xsOZIvsxHKSY9ulAdGPqhlabJHNrQtXi+9g9NCmcPBw=,tag:VAPYQpJ3ugNwDo5GsFATpQ==,type:str]
+        pullPolicy: ENC[AES256_GCM,data:TI2x24Ur,iv:vTOW6sG14k9aYRck7lgKdbX3LBmyDgkf4UfjUCQkWHI=,tag:KOI7aK3LGY6ooV7QrNFWyg==,type:str]
+    postgres:
+        repository: ENC[AES256_GCM,data:ajVfWb1xW+Q=,iv:Yb0deKQbJabLHnj7Y7fv1ptzeKssUuzxHYrM3kqT+TU=,tag:DabJwORakR6Jh02zB0mKHg==,type:str]
+        tag: ENC[AES256_GCM,data:qOY=,iv:8ukAgwjkt1s1hpb0k+ciOyiuMs87448CL67LFfUtAeE=,tag:+QOsDLUKm8rMi8GUZf66zg==,type:str]
+        pullPolicy: ENC[AES256_GCM,data:mDSWarMyMk5MNGzk,iv:9ghVGyzSTAxFnw56cPrGyJXJU+nsDR0gAxcd3NGuQm0=,tag:Hv+Ga53M9zhzZL5hDB5CcA==,type:str]
+service:
+    type: ENC[AES256_GCM,data:ooxfc0bNnNG9jFW3,iv:LtkH3bu6uFzvB5Nu+Bno6BvLdlGIcaeAEkj0O0Fk9pM=,tag:hLNZZJaqZSPq/hJqz+yoPw==,type:str]
+    port: ENC[AES256_GCM,data:uGzvzw==,iv:eIw85hUdCUR0HgXQYa1/lDqihICH7KSqz7FK7Sn+Hvg=,tag:J6p1IBaqh7Wsns0hYZ5mwA==,type:int]
+resources:
+    app:
+        requests:
+            memory: ENC[AES256_GCM,data:DZnrHpw=,iv:tsN28qpYR6qIPnC1pMT502BliNajDZ8YO7+QOJJaAEw=,tag:m9C6xRRRI1BFOIjTyPixVA==,type:str]
+        limits:
+            memory: ENC[AES256_GCM,data:+GSw9XI=,iv:a34vugdkUpu6TyEMDqkjthjPrYGhhhA2qPcpozJxZgo=,tag:ida2Q6QnJikI5OVkieFE+w==,type:str]
+    postgres:
+        requests:
+            memory: ENC[AES256_GCM,data:ZVqRk2k=,iv:vDzP7W+4hV01jZVaFa1PoHDLi4Thn4SLGkp3X+k9tVo=,tag:J+xiboV8+JguShX/VfnIWg==,type:str]
+        limits:
+            memory: ENC[AES256_GCM,data:Thlr,iv:XhJXtkWH5Uekv6bURgdJGqeRil9p9qwiP/KtKAFn1i0=,tag:pzhE4uKH64/FJxU0sk6Leg==,type:str]
+config:
+    app:
+        env: ENC[AES256_GCM,data:P27JW/hB0TbRFw==,iv:GYPa83lo7jR2q5RI4EoXFEbMPvE1xdPV9MqlFSQUzUc=,tag:AY/ugf2Hn5xQJ/FcHnwNqg==,type:str]
+        logLevel: ENC[AES256_GCM,data:V8Huug==,iv:YP2ULlvxMkA8q/PGoLjPb46RD98bVBPhUW9FTo124s0=,tag:FvH3urnxVmmfyI4W6pgSEA==,type:str]
+postgres:
+    dbName: ENC[AES256_GCM,data:RFdN,iv:hij00cCGVf6AYl28/Iyffbpn4TrHLaw5uovYBTLWaVc=,tag:ctPT+CVgEI8hieKiPO1Osg==,type:str]
+    dbUser: ENC[AES256_GCM,data:h8XWrpg=,iv:npdHCCvCxynGuj+B/naaoj/APaqQnxSZrneIHATjuSY=,tag:IcxYDovrovaSiSjjuR9dUg==,type:str]
+    dbschema: ENC[AES256_GCM,data:mQun,iv:OFRHveFLQCF4OJcyEzbhvBT/CV+ygwlXwnar1P/4EA8=,tag:bxSEAUCDT4WwBNBzQcRynA==,type:str]
+    dbPort: ENC[AES256_GCM,data:lKfSlw==,iv:o9u63PlSqRA3dJC9GB3haowUIWqwxoz7lTXZxD1HzR8=,tag:zqra8jetJUhEre6HHXRq5A==,type:str]
+gcs:
+    GCS_BUCKET_NAME: ENC[AES256_GCM,data:K1OReE5mizp0m1yXMrVgKkZ6tA==,iv:H4eOXG+CJVYs3uFhpqc0q24TM6n1T+Ruv6TrzVZ/U/8=,tag:8ofYubyYXfMPDa/Wk95QGw==,type:str]
+    GCS_SERVICE_ACCOUNT: ENC[AES256_GCM,data:DDMpczFSNLHvPD7teoQs+qtE3J88i73Gj79Lz6bp+Qy1A7m4s9ku1DZiyU6YuzZxpZTIqtR8/GvHYeUHthfVz/5J,iv:XXhQuZWtsKbDseKDp7CyyEpn8JN2Q9jsJ3/qn1IwqUw=,tag:v1lWGwZK9NvFh4cefNo0MQ==,type:str]
+secrets:
+    postgresPassword: ENC[AES256_GCM,data:PD0pm4EIG6juqmBNBjk=,iv:+1Tm1msYc62rVGBF4xnYpEzc/YBlNQnWjt0kTvPjXRA=,tag:3AZyw4Z390DgrEYhxiJqGQ==,type:str]
+docker:
+    username: ENC[AES256_GCM,data:Z55RGzck85qQMvYdnh0=,iv:sriUayQnd9Zvv2gdugZ3UFHmLIrDvSrY4GL9UA4j+9M=,tag:9Wje8sKU3egl3S6i48Tu/g==,type:str]
+    password: ENC[AES256_GCM,data:uh43lbQWhky93dELSPc=,iv:57mLdvXC2nRTAydNYJdXPUiYkMISSoX62ZdBeF3TYpQ=,tag:CKVPI9+PF7o85SNaEcRKzg==,type:str]
+    email: ENC[AES256_GCM,data:DcAoa9DbqCXKART3fS7tV2VqSFJhz4V5wyUMvgM=,iv:tiamiT2f8PJlftXWtw8BSjXJoeJvchFVEtXT4Yd+WdM=,tag:nkFX/rhE9PJN3qGTqMzsnw==,type:str]
+sops:
+    kms: []
+    gcp_kms:
+        - resource_id: projects/silicon-works-449817-n7/locations/us-east1/keyRings/csye7125/cryptoKeys/sops
+          created_at: "2025-03-28T19:46:36Z"
+          enc: CiQAkrm5hwb+RkolpBJwiizR7R66fRcWaQmExeGHuO9VNE2e6LASSQBBsUUVKsO39XC0bX3zgEzMyqjGJrSAxNbE6TVo4QtMxjDYYQIL+2rgl2L1eF+gR9g2MyBjARNiS1/oalOxNXxqoA7rbRUpI6M=
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2025-03-28T19:46:36Z"
+    mac: ENC[AES256_GCM,data:22HGMB9iWsPlRHyRwMcLeoEXaRTgcoFhknswbXQlbx49/qs4BcnTnl1FU6jQYd/zfv0S/lnjKFDK/Eq/MkTqI0k3TsJfmzT7YYhj55vjeATK6YAlQ0doFvmmjI1DpAPP23F1a9HtRv3axjIu+6u5hHDEuOAdvfi2SlhCDgARJF8=,iv:3LyDsVh3c4+DXQFVx0OimdqAxU3BnQiNwHnjNjXm7ZA=,tag:MVcvcwFoOJnHDQYsrJ3PtA==,type:str]
+    pgp: []
+    unencrypted_suffix: _unencrypted
+    version: 3.9.4
