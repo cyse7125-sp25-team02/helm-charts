@@ -17,7 +17,7 @@ pipeline {
                             echo "Installing SOPS..."
                             curl -LO https://github.com/mozilla/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64
                             chmod +x sops-v3.8.1.linux.amd64
-                            sudo mv sops-v3.8.1.linux.amd64 /usr/local/bin/sops
+                            mv sops-v3.8.1.linux.amd64 /usr/local/bin/sops
                         fi
                         sops --version
                     '''
