@@ -7,6 +7,9 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.2
     meta.helm.sh/release-name: {{ .Release.Name }}
     meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+    helm.sh/hook: crd-install
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
   name: backupdatabaseschemas.backupschema.jkops.me
 spec:
   group: backupschema.jkops.me
