@@ -3,8 +3,10 @@ pipeline {
 
     environment {
         GITHUB_TOKEN = credentials('github-token')
-        CHART_NAME = 'api-server'
-        CHART_PATH = './api-server'
+        API_SERVER_CHART_NAME = 'api-server'
+        API_SERVER_CHART_PATH = './api-server'
+        DB_OPERATOR_CHART_NAME = 'db-backup-operator'
+        DB_OPERATOR_CHART_PATH = './db-backup-operator'
         PATH = "${env.WORKSPACE}/bin:$PATH"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-jenkins-sops-key')
     }
@@ -45,7 +47,8 @@ pipeline {
         stage('Helm Lint') {
             steps {
                 script {
-                    sh "helm secrets lint ${CHART_PATH} -f ${CHART_PATH}/values.enc.yaml"
+                    sh "helm secrets lint ${API_SERVER_CHART_PATH} -f ${API_SERVER_CHART_PATH}/values.enc.yaml"
+                    sh "helm secrets lint ${DB_OPERATOR_CHART_PATH} -f ${DB_OPERATOR_CHART_PATH}/values.enc.yaml"
                 }
             }
         }
@@ -53,7 +56,8 @@ pipeline {
         stage('Helm Template') {
             steps {
                 script {
-                    sh "helm secrets template ${CHART_NAME} ${CHART_PATH} -f ${CHART_PATH}/values.enc.yaml"
+                    sh "helm secrets template ${API_SERVER_CHART_NAME} ${API_SERVER_CHART_PATH} -f ${API_SERVER_CHART_PATH}/values.enc.yaml"
+                    sh "helm secrets template ${DB_OPERATOR_CHART_NAME} ${DB_OPERATOR_CHART_PATH} -f ${DB_OPERATOR_CHART_PATH}/values.enc.yaml"
                 }
             }
         }
