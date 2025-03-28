@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: api-server-pod-manager-binding
+  name: {{ .Release.Name }}-pod-manager-binding
   namespace: {{ .Values.appNamespace }}
 subjects:
 - kind: ServiceAccount
@@ -9,5 +9,5 @@ subjects:
   namespace: {{ .Values.appNamespace }}
 roleRef:
   kind: Role
-  name: api-server-pod-manager
+  name: {{ .Release.Name }}-pod-manager
   apiGroup: rbac.authorization.k8s.io
