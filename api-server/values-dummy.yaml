@@ -1,0 +1,48 @@
+appNamespace: api-server-app
+dbNamespace: api-server-db
+replicaCount: 1
+image:
+  app:
+    repository: docker-image-name
+    tag: latest
+    pullPolicy: Always
+  database:
+    repository: docker-image-name
+    tag: latest
+    pullPolicy: Always
+  postgres:
+    repository: postgres
+    tag: "15"
+    pullPolicy: IfNotPresent
+service:
+  type: LoadBalancer
+  port: 3000
+resources:
+  app:
+    requests:
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+  postgres:
+    requests:
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+config:
+  app:
+    env: production
+    logLevel: info
+postgres:
+  dbName: api
+  dbUser: admin
+  dbschema: api
+  dbPort: "5432"
+gcs:
+  GCS_BUCKET_NAME: bucket-name
+  GCS_SERVICE_ACCOUNT: service-account-name
+secrets:
+  postgresPassword: password
+docker:
+  username: username
+  password: password
+  email: email
