@@ -45,23 +45,25 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 5
       affinity:
-        # Pod Affinity (Required): Must run in the same zone as the database pods
         podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - {{ .Values.apiServerNamespace }}-postgres  # Matches the DB StatefulSet
-            topologyKey: "topology.kubernetes.io/zone"  # Same zone (e.g., us-east1-b)
-        # Pod Anti-Affinity (Required): Must not run on the same node as another operator pod
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - {{ .Values.apiServerNamespace }}-postgres
+              topologyKey: "topology.kubernetes.io/zone"
         podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - {{ .Chart.Name }}  # Matches the operator itself
-            topologyKey: "kubernetes.io/hostname"  # Different nodes
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - {{ .Chart.Name }}
+              topologyKey: "kubernetes.io/hostname"
