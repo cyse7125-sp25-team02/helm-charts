@@ -7,57 +7,23 @@ pipeline {
         API_SERVER_CHART_PATH = './api-server'
         DB_OPERATOR_CHART_NAME = 'db-backup-operator'
         DB_OPERATOR_CHART_PATH = './db-backup-operator'
-        PATH = "${env.WORKSPACE}/bin:$PATH"
-        GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-jenkins-sops-key')
     }
 
     stages {
-        stage('Install SOPS') {
-            steps {
-                script {
-                    sh '''
-                        # Create a bin directory in the workspace
-                        mkdir -p ${WORKSPACE}/bin
-                        if ! command -v sops &> /dev/null; then
-                            echo "Installing SOPS..."
-                            curl -LO https://github.com/mozilla/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64
-                            chmod +x sops-v3.8.1.linux.amd64
-                            mv sops-v3.8.1.linux.amd64 ${WORKSPACE}/bin/sops
-                        fi
-                        sops --version
-                    '''
-                }
-            }
-        }
-
-        stage('Install helm-secrets') {
-            steps {
-                script {
-                    sh '''
-                        if ! helm plugin list | grep -q secrets; then
-                            echo "Installing helm-secrets plugin..."
-                            helm plugin install https://github.com/jkroepke/helm-secrets
-                        fi
-                        helm plugin list
-                    '''
-                }
-            }
-        }
-
         stage('Helm Lint') {
             steps {
                 script {
-                    sh "helm secrets lint ${API_SERVER_CHART_PATH} -f ${API_SERVER_CHART_PATH}/values.enc.yaml"
-                    sh "helm secrets lint ${DB_OPERATOR_CHART_PATH} -f ${DB_OPERATOR_CHART_PATH}/values.enc.yaml"
+                    sh "helm lint ${API_SERVER_CHART_PATH} -f ${API_SERVER_CHART_PATH}/values-dummy.yaml"
+                    sh "helm lint ${DB_OPERATOR_CHART_PATH} -f ${DB_OPERATOR_CHART_PATH}/values-dummy.yaml"
                 }
             }
         }
-
+        
         stage('Helm Template') {
             steps {
                 script {
-                    sh "helm secrets template ${API_SERVER_CHART_NAME} ${API_SERVER_CHART_PATH} -f ${API_SERVER_CHART_PATH}/values.enc.yaml"
-                    sh "helm secrets template ${DB_OPERATOR_CHART_NAME} ${DB_OPERATOR_CHART_PATH} -f ${DB_OPERATOR_CHART_PATH}/values.enc.yaml"
+                    sh "helm template ${API_SERVER_CHART_NAME} ${API_SERVER_CHART_PATH} -f ${API_SERVER_CHART_PATH}/values-dummy.yaml"
+                    sh "helm template ${DB_OPERATOR_CHART_NAME} ${DB_OPERATOR_CHART_PATH} -f ${DB_OPERATOR_CHART_PATH}/values-dummy.yaml"
                 }
             }
         }

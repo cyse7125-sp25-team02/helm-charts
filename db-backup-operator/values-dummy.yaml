@@ -1,0 +1,22 @@
+namespace: "namespace"
+dbNamespace: "namespace1"
+apiServerNamespace: "namespace2"
+
+gcs:
+  GCS_BUCKET_NAME: "bucket-name"
+  GCS_SERVICE_ACCOUNT: "service-account-name"
+
+secrets:
+  postgresPassword: "password"
+
+dbSecrets:
+  DB_HOST: "db-host"
+  DB_USER: "admin"
+  DB_SCHEMA: "schema"
+  DB_PORT: 5432
+  DB_NAME: "db-name"
+
+docker:
+  username: "username"
+  password: "password"
+  email: "email"
