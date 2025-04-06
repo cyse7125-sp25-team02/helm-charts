@@ -44,26 +44,3 @@ spec:
               port: 8081
             initialDelaySeconds: 15
             periodSeconds: 5
-      affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                  - {{ .Values.apiServerNamespace }}-postgres
-              topologyKey: "topology.kubernetes.io/zone"
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                  - {{ .Chart.Name }}
-              topologyKey: "kubernetes.io/hostname"
