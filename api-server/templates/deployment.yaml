@@ -16,9 +16,12 @@ spec:
       labels:
         {{- include "api-server.labels" . | nindent 8 }}
       annotations:
+        # Ensure our app's annotations are distinct from Istio’s
         prometheus.io/scrape: "true"           # Enable scraping
         prometheus.io/port: "3000"            # Port where metrics are exposed
         prometheus.io/path: "/metrics"        # Path to metrics endpoint (adjust if different)
+        sidecar.istio.io/inject: "true"
+        prometheus.io/scrape-role: "application"
     spec:
       serviceAccountName: {{ .Release.Name }}-ksa
       imagePullSecrets:
