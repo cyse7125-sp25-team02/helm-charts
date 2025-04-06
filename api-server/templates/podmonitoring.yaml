@@ -1,0 +1,17 @@
+# podmonitoring.yaml
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: {{ .Release.Name }}-app-monitoring
+  namespace: {{ .Values.appNamespace }}
+  labels:
+    {{- include "api-server.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  endpoints:
+    - port: {{ .Values.prometheus.applicationPort }}
+      path: {{ .Values.prometheus.path }}
+      interval: {{ .Values.prometheus.interval }}  # Scrape interval (adjust as needed)
