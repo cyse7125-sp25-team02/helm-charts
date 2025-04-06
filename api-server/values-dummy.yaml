@@ -46,3 +46,8 @@ docker:
   username: username
   password: password
   email: email
+
+prometheus:
+  applicationPort: 3000
+  path: "/metrics"
+  interval: "30s"
