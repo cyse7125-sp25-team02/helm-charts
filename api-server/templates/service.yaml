@@ -28,6 +28,10 @@ spec:
     - port: 5432
       targetPort: 5432
       protocol: TCP
+    - port: 9187
+      targetPort: 9187
+      protocol: TCP
+      name: metrics
   selector:
     app.kubernetes.io/name: {{ .Chart.Name }}-postgres
     app.kubernetes.io/instance: {{ .Release.Name }}

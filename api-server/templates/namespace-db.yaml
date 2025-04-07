@@ -3,5 +3,4 @@ kind: Namespace
 metadata:
   name: {{ .Values.dbNamespace }}
   labels:
-    istio-injection: enabled
     app.kubernetes.io/managed-by: Helm

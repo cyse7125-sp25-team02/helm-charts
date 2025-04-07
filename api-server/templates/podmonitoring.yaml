@@ -1,17 +1,17 @@
-# podmonitoring.yaml
 apiVersion: monitoring.googleapis.com/v1
 kind: PodMonitoring
 metadata:
-  name: {{ .Release.Name }}-app-monitoring
-  namespace: {{ .Values.appNamespace }}
+  name: {{ .Release.Name }}-postgres-monitoring
+  namespace: {{ .Values.dbNamespace }}
   labels:
-    {{- include "api-server.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ .Chart.Name }}-postgres
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Chart.Name }}
+      app.kubernetes.io/name: {{ .Chart.Name }}-postgres
       app.kubernetes.io/instance: {{ .Release.Name }}
   endpoints:
-    - port: {{ .Values.prometheus.applicationPort }}
-      path: {{ .Values.prometheus.path }}
-      interval: {{ .Values.prometheus.interval }}  # Scrape interval (adjust as needed)
+    - port: 9187  
+      interval: 30s
+      path: /metrics
