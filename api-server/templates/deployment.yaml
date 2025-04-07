@@ -17,6 +17,7 @@ spec:
         {{- include "api-server.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ .Release.Name }}-ksa
+      automountServiceAccountToken: true
       imagePullSecrets:
         - name: {{ .Release.Name }}-docker-credentials
       initContainers:
