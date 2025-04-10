@@ -19,6 +19,9 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/managed-by: "Helm"
         app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9187"  # Port for postgres-exporter
     spec:
       imagePullSecrets:
         - name: {{ .Release.Name }}-docker-credentials
@@ -55,6 +58,21 @@ spec:
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
+        - name: postgres-exporter
+          image: quay.io/prometheuscommunity/postgres-exporter:latest
+          ports:
+            - containerPort: 9187
+              name: metrics
+          env:
+            - name: DATA_SOURCE_NAME
+              value: "postgresql://{{ .Values.postgres.dbUser }}:{{ .Values.secrets.postgresPassword }}@localhost:5432/{{ .Values.postgres.dbName }}?sslmode=disable"
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
   volumeClaimTemplates:
     - metadata:
         name: postgres-data

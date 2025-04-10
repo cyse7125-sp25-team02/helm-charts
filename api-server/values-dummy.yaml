@@ -46,3 +46,17 @@ docker:
   username: username
   password: password
   email: email
+
+prometheus:
+  applicationPort: 3000
+  path: "/metrics"
+  interval: "30s"
+
+hpa:
+  minReplicas: 2
+  maxReplicas: 10
+  cpuTargetUtilization: 80
+  requestRateTarget: "100"
+
+pdb:
+  minAvailable: 1
