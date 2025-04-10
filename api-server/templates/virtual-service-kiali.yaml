@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali-vs
+  namespace: istio-system
+spec:
+  hosts:
+    - kiali.jkops.me
+  gateways:
+    - istio-system/api-server-gateway
+  http:
+    - route:
+        - destination:
+            host: kiali  # This is the Kiali Kubernetes service name. It must match what you see (e.g., in "kubectl get svc -n istio-system")
+            port:
+              number: 20001  # The default port for Kiali. Adjust if necessary.

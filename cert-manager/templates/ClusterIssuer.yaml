@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .Values.ClusterIssuer.name }}  # Replace with your ClusterIssuer name
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: {{ .Values.ClusterIssuer.email }}  # Replace with your email
+    privateKeySecretRef:
+      name: {{ .Values.ClusterIssuer.privateKeySecretRef.name }}
+    solvers:
+    - http01:
+        ingress:
+          class: {{ .Values.ClusterIssuer.class }}  # This tells cert-manager to use the Istio ingress
