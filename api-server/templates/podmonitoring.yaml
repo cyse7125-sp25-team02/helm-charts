@@ -12,6 +12,6 @@ spec:
       app.kubernetes.io/name: {{ .Chart.Name }}-postgres
       app.kubernetes.io/instance: {{ .Release.Name }}
   endpoints:
-    - port: 9187  
+    - port: metrics  
       interval: 30s
       path: /metrics

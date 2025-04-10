@@ -79,3 +79,7 @@ gcloud iam service-accounts add-iam-policy-binding \
   --project silicon-works-449817-n7 \
   --role roles/iam.workloadIdentityUser \
   --member "serviceAccount:<PROJECT_ID>.svc.id.goog[test-server-app/test-server-ksa]"
+
+
+## Get gmp-system namespace pods
+```kubectl get pods -n gmp-system```

@@ -20,14 +20,6 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{ .Values.hpa.cpuTargetUtilization | default 80 }}
-    # Scale based on custom Istio metric (request rate)
-    # - type: Pods
-    #   pods:
-    #     metric:
-    #       name: envoy_http_downstream_rq_total
-    #     target:
-    #       type: AverageValue
-    #       averageValue: {{ .Values.hpa.requestRateTarget | default "100" }}
   behavior:
     scaleDown:
       stabilizationWindowSeconds: 300
