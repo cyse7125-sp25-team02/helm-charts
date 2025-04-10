@@ -1,0 +1,15 @@
+# This new ConfigMap configures Grafana to connect to your Prometheus instance (prometheus-collector in the gmp-system namespace)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources-config
+  namespace: monitoring
+data:
+  datasource.yaml: |
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-collector.gmp-system.svc.cluster.local:19090
+      access: proxy
+      isDefault: true
