@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.Certificate.name }}
+  namespace: {{ .Values.Certificate.namespace }}
+spec:
+  secretName: {{ .Values.Certificate.secretName }}      # This secret will store your TLS certificate
+  issuerRef:
+    name: {{ .Values.Certificate.issuerRef.name }}
+    kind: {{ .Values.Certificate.issuerRef.kind }}
+  commonName: {{ .Values.Certificate.commonName }}
+  dnsNames:
+  - {{ .Values.Certificate.dnsNames }}
+  - prometheus.jkops.me
+  - kiali.jkops.me
