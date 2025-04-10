@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: api-server-vs
+  namespace: api-server-app  # Change this to the namespace where your api-server is deployed
+spec:
+  hosts:
+  - "api.jkops.me"
+  gateways:
+  - istio-system/api-server-gateway  # Reference the Gateway you created
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: api-server-app  # This should be the name of your Kubernetes Service for the api-server
+        port:
+          number: 3000         # Change this to match your Service port if needed

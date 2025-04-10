@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: prometheus-vs
+  namespace: gmp-system
+spec:
+  hosts:
+  - "prometheus.jkops.me"
+  gateways:
+  - istio-system/api-server-gateway # Reference the gateway in the istio-system namespace
+  http:
+  - route:
+    - destination:
+        host: prometheus-collector
+        port:
+          number: 19090

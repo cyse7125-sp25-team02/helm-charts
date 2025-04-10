@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ .Values.Gateway.name }}
+  namespace: {{ .Values.Gateway.namespace }}
+spec:
+  selector:
+    istio: {{ .Values.Gateway.selector.istio }}
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: {{ .Values.Gateway.servers.tls.mode }}
+      credentialName: {{ .Values.Gateway.servers.tls.credentialName }}
+    hosts:
+    - {{ .Values.Gateway.servers.hosts }}
+    - "prometheus.jkops.me"
+    - "kiali.jkops.me"
