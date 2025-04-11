@@ -27,11 +27,9 @@ spec:
         - name: grafana-dashboards
           mountPath: /etc/grafana/provisioning/dashboards
         - name: grafana-provisioning
-          mountPath: /etc/grafana/provisioning/dashboards/dashboard.yaml
-          subPath: dashboard.yaml
+          mountPath: /etc/grafana/provisioning/dashboards/config
         - name: grafana-datasources
-          mountPath: /etc/grafana/provisioning/datasources/datasource.yaml
-          subPath: datasource.yaml
+          mountPath: /etc/grafana/provisioning/datasources
       volumes:
       - name: grafana-dashboards
         configMap:

@@ -1,4 +1,3 @@
-# This new ConfigMap tells Grafana where to load dashboards from (the grafana-dashboard-postgres ConfigMap).
 apiVersion: v1
 kind: ConfigMap
 metadata:
