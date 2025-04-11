@@ -14,3 +14,4 @@ spec:
   - {{ .Values.Certificate.dnsNames }}
   - prometheus.jkops.me
   - kiali.jkops.me
+  - grafana.jkops.me

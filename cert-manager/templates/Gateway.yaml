@@ -19,3 +19,4 @@ spec:
     - {{ .Values.Gateway.servers.hosts }}
     - "prometheus.jkops.me"
     - "kiali.jkops.me"
+    - "grafana.jkops.me"
