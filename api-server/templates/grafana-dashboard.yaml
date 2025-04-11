@@ -1,0 +1,62 @@
+# grafana-dashboard.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-postgres
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  postgres-dashboard.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+          "id": 1,
+          "options": {},
+          "targets": [
+            {
+              "expr": "pg_stat_database_tup_returned{namespace=\"api-server-db\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "Tup Returned",
+              "refId": "A"
+            }
+          ],
+          "title": "Postgres Tup Returned",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+          "id": 2,
+          "options": {},
+          "targets": [
+            {
+              "expr": "pg_stat_activity_count{namespace=\"api-server-db\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "Activity Count",
+              "refId": "A"
+            }
+          ],
+          "title": "Postgres Activity Count",
+          "type": "timeseries"
+        }
+      ],
+      "schemaVersion": 30,
+      "title": "Postgres Logs Dashboard",
+      "version": 1
+    }

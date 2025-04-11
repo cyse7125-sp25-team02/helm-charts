@@ -16,4 +16,4 @@ spec:
   kubeServiceAccount: {{ .Release.Name }}-ksa # Operator’s ServiceAccount
   gcpServiceAccount: {{ .Values.gcs.GCS_SERVICE_ACCOUNT | quote }} # Replace with your GCP SA
   backupJobNamespace: {{ .Values.namespace | quote }}
-  backupInterval: 2
+  backupInterval: 59

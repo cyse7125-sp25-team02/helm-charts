@@ -1,0 +1,14 @@
+# disable-mtls-for-health-check.yaml(not required)
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: disable-mtls-for-health-check
+  namespace: monitoring
+spec:
+  host: grafana.monitoring.svc.cluster.local
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 15021
+      tls:
+        mode: DISABLE
