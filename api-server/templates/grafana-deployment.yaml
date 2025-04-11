@@ -23,7 +23,7 @@ spec:
         - containerPort: 3000
         env:
         - name: GF_SECURITY_ADMIN_PASSWORD
-          value: "admin"
+          value: {{ .Values.grafanaAdminPassword | quote }}
         - name: GF_SERVER_ROOT_URL
           value: "https://grafana.jkops.me"
         volumeMounts:
