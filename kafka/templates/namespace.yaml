@@ -6,4 +6,3 @@ metadata:
   labels:
     istio-injection: enabled
     app.kubernetes.io/managed-by: Helm
-    {{- include "kafka.labels" . | nindent 4 }}

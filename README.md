@@ -83,3 +83,16 @@ gcloud iam service-accounts add-iam-policy-binding \
 
 ## Get gmp-system namespace pods
 ```kubectl get pods -n gmp-system```
+
+## Create new topic
+```kubectl exec -it my-kafka-release-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --create --topic pdf-upload --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1```
+
+## consume topic
+```kubectl exec -it my-kafka-release-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic pdf-upload --from-beginning```
+
+## List all topics
+```kubectl exec -it my-kafka-release-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092```
+
+## Add bitnami to repo
+```helm repo add bitnami https://charts.bitnami.com/bitnami```
+```helm repo update```
