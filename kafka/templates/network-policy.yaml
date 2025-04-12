@@ -1,0 +1,23 @@
+# kafka/templates/network-policy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-kafka-access
+  namespace: {{ .Values.kafkaNamespace }}
+  labels:
+    {{- include "kafka.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
+      app.kubernetes.io/instance: {{ .Release.Name }}-kafka
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ .Values.apiServerNamespace }}
+      ports:
+        - protocol: TCP
+          port: 9092

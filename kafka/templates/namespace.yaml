@@ -1,0 +1,9 @@
+# kafka/templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.kafkaNamespace }}
+  labels:
+    istio-injection: enabled
+    app.kubernetes.io/managed-by: Helm
+    {{- include "kafka.labels" . | nindent 4 }}

@@ -1,0 +1,33 @@
+# Helm dependency charts
+charts/
+
+# Helm package files
+*.tgz
+
+# Helm dependency lock file
+Chart.lock
+
+# Local chart repository
+chart_repo/
+
+# Helm generated files
+*.lock
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+values.yaml
+package-lock.json
