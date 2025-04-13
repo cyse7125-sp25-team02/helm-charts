@@ -80,18 +80,48 @@ gcloud iam service-accounts add-iam-policy-binding \
   --role roles/iam.workloadIdentityUser \
   --member "serviceAccount:<PROJECT_ID>.svc.id.goog[test-server-app/test-server-ksa]"
 
+# Steps to install kafka helm chart
+
+1. Go Inside kafka directory after cloning the repo on bastion host
+```bash 
+cd kafka
+```
+
+2. Run the helm dependency update command
+```bash
+helm dependency update
+```
+
+3. Install the kafka helm chart with release name as **pdf-upload**
+```bash
+helm install pdf-upload . --values values.yaml
+```
+
+4. Create a topic after installing the kafka helm chart
+```bash
+kubectl exec -it pdf-upload-kafka-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --create --topic pdf-upload --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+```
+
+5. Check the pods in kafka namespace and if topic is created
+```bash
+kubectl get pods -n kafka
+```
+```bash
+kubectl exec -it pdf-upload-kafka-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+```
+
 
 ## Get gmp-system namespace pods
 ```kubectl get pods -n gmp-system```
 
 ## Create new topic
-```kubectl exec -it my-kafka-release-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --create --topic pdf-upload --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1```
+```kubectl exec -it pdf-upload-kafka-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --create --topic pdf-upload --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1```
 
 ## consume topic
-```kubectl exec -it my-kafka-release-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic pdf-upload --from-beginning```
+```kubectl exec -it pdf-upload-kafka-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic pdf-upload --from-beginning```
 
 ## List all topics
-```kubectl exec -it my-kafka-release-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092```
+```kubectl exec -it pdf-upload-kafka-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092```
 
 ## Add bitnami to repo
 ```helm repo add bitnami https://charts.bitnami.com/bitnami```
