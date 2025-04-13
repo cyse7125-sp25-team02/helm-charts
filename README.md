@@ -96,3 +96,6 @@ gcloud iam service-accounts add-iam-policy-binding \
 ## Add bitnami to repo
 ```helm repo add bitnami https://charts.bitnami.com/bitnami```
 ```helm repo update```
+
+## From the kafka directory, update the chart dependencies
+```helm dependency update```
