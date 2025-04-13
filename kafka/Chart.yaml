@@ -1,0 +1,10 @@
+# kafka/Chart.yaml
+apiVersion: v2
+name: kafka
+description: A Helm chart for deploying Kafka on GKE
+version: 0.1.0
+appVersion: "1.0"
+dependencies:
+  - name: kafka
+    version: "26.8.0" # Stable version at the time of writing
+    repository: "https://charts.bitnami.com/bitnami"
