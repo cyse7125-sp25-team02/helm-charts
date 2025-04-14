@@ -1,0 +1,6 @@
+# trace-processor/Chart.yaml
+apiVersion: v2
+name: trace-processor
+description: A Helm chart for deploying trace processor
+version: 0.1.0
+appVersion: "1.0"

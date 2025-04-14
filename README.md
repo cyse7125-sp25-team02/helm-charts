@@ -97,12 +97,12 @@ helm dependency update
 helm install pdf-upload . --values values.yaml
 ```
 
-4. Create a topic after installing the kafka helm chart
+1. Create a topic after installing the kafka helm chart
 ```bash
 kubectl exec -it pdf-upload-kafka-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --create --topic pdf-upload --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
 ```
 
-5. Check the pods in kafka namespace and if topic is created
+1. Check the pods in kafka namespace and if topic is created
 ```bash
 kubectl get pods -n kafka
 ```

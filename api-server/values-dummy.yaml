@@ -60,3 +60,7 @@ hpa:
 
 pdb:
   minAvailable: 1
+kafka:
+    bootstrap_servers: kafka-broker-dns-name:9092
+    group_id: group-name
+    topic: topic-name

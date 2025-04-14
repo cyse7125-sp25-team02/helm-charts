@@ -18,6 +18,9 @@ spec:
         - namespaceSelector:
             matchLabels:
               name: {{ .Values.apiServerNamespace }}
+        - namespaceSelector:
+            matchLabels:
+              name: {{ .Values.traceProcessorNamespace }}
       ports:
         - protocol: TCP
           port: 9092
