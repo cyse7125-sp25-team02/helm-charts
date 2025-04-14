@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Values.traceProcessorNamespace }}
+  labels:
+    {{- include "trace-processor.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        {{- include "trace-processor.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}-ksa
+      imagePullSecrets:
+        - name: {{ .Release.Name }}-docker-credentials
+      containers:
+      - name: trace-processor
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-kafka-config
+              key: KAFKA_BOOTSTRAP_SERVERS
+        - name: KAFKA_GROUP_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-kafka-config
+              key: KAFKA_GROUP_ID
+        - name: KAFKA_TOPIC
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-kafka-config
+              key: KAFKA_TOPIC
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"

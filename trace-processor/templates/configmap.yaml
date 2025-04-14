@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-kafka-config
+  namespace: {{ .Values.traceProcessorNamespace }}
+  labels:
+    {{- include "trace-processor.labels" . | nindent 4 }}
+type: Opaque
+data:
+  KAFKA_BOOTSTRAP_SERVERS: {{ .Values.kafka.bootstrap_servers }}
+  KAFKA_GROUP_ID: {{ .Values.kafka.group_id }}
+  KAFKA_TOPIC: {{ .Values.kafka.topic }}
