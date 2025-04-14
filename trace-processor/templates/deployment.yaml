@@ -26,17 +26,17 @@ spec:
         env:
         - name: KAFKA_BOOTSTRAP_SERVERS
           valueFrom:
-            secretKeyRef:
+            configMapKeyRef:
               name: {{ .Release.Name }}-kafka-config
               key: KAFKA_BOOTSTRAP_SERVERS
         - name: KAFKA_GROUP_ID
           valueFrom:
-            secretKeyRef:
+            configMapKeyRef:
               name: {{ .Release.Name }}-kafka-config
               key: KAFKA_GROUP_ID
         - name: KAFKA_TOPIC
           valueFrom:
-            secretKeyRef:
+            configMapKeyRef:
               name: {{ .Release.Name }}-kafka-config
               key: KAFKA_TOPIC
         resources:
