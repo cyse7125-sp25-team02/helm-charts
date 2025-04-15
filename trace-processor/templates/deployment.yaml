@@ -39,6 +39,26 @@ spec:
             configMapKeyRef:
               name: {{ .Release.Name }}-kafka-config
               key: KAFKA_TOPIC
+        - name: MISTRAL_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: MISTRAL_API_KEY
+        - name: PINECONE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: PINECONE_API_KEY
+        - name: PINECONE_ENVIRONMENT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: PINECONE_ENVIRONMENT
+        - name: PINECONE_INDEX_NAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: PINECONE_INDEX_NAME
         resources:
           requests:
             cpu: "100m"
