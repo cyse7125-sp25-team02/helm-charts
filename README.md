@@ -1,5 +1,11 @@
 # Go Application Helm Chart
 
+## NOTE: To Install all the helm charts at once, clone the repository in bastion host and run the [startup-script.sh](startup-script.sh) file from this repository.
+```bash
+chmod +x startup-script.sh
+./startup-script.sh
+```
+
 ## Prerequisites
 
 - Helm 3.x
