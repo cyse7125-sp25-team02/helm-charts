@@ -24,11 +24,6 @@ spec:
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
-        - name: MISTRAL_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-application-secrets
-              key: MISTRAL_API_KEY
         - name: PINECONE_API_KEY
           valueFrom:
             secretKeyRef:
@@ -49,6 +44,16 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-application-secrets
               key: GEMINI_API_KEY
+        - name: GCP_LOCATION
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: GCP_LOCATION
+        - name: GCP_PROJECT_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: GCP_PROJECT_ID
         - name: TOP_K
           valueFrom:
             secretKeyRef:

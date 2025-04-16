@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: streamlit-vs
+  namespace: {{ .Values.streamlit_llm_namespace }} # Ensure this matches your Service/Deployment namespace
+spec:
+  hosts:
+    - "app.jkops.me"  # External domain
+  gateways:
+    - istio-system/api-server-gateway # Your ingress gateway
+  http:
+  - match:           # Defines WHEN this route applies
+    - uri:
+        prefix: /    # Matches all requests to the host
+    route:           # Defines WHERE matching traffic goes (sibling to 'match')
+    - destination:
+        # Use the short service name as VS and SVC are in the same namespace
+        host: streamlit-svc
+        port:
+          # Port defined in the Service (which targets 8501 on the pod)
+          number: {{ .Values.service.port }} # Use the service port value directly
+        # Alternatively, if targetPort is always 8501 and service port might differ:
+        # host: streamlit-svc
+        # port:
+        #   number: 8501 # Using the target port number directly might also work but using the service port is often clearer
