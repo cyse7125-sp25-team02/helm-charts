@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Values.streamlit_llm_namespace }}
+  labels:
+    {{- include "streamlit-llm-interface.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        {{- include "streamlit-llm-interface.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}-ksa
+      imagePullSecrets:
+        - name: {{ .Release.Name }}-docker-credentials
+      containers:
+      - name: streamlit-llm-interface
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: MISTRAL_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: MISTRAL_API_KEY
+        - name: PINECONE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: PINECONE_API_KEY
+        - name: PINECONE_ENVIRONMENT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: PINECONE_ENVIRONMENT
+        - name: PINECONE_INDEX_NAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: PINECONE_INDEX_NAME
+        - name: GEMINI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: GEMINI_API_KEY
+        - name: TOP_K
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: TOP_K
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"

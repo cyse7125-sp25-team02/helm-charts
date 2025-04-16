@@ -1,0 +1,8 @@
+# trace-processor/templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.streamlit_llm_namespace }}
+  labels:
+    istio-injection: enabled
+    app.kubernetes.io/managed-by: Helm
