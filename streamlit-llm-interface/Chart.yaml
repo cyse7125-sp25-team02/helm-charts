@@ -1,0 +1,6 @@
+# streamlit-llm-interface/Chart.yaml
+apiVersion: v2
+name: streamlit-llm-interface
+description: A Helm chart for deploying a Streamlit application for LLMs and LLMsOps
+version: 0.1.0
+appVersion: "1.0"

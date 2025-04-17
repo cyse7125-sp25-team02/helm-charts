@@ -20,3 +20,4 @@ spec:
     - "prometheus.jkops.me"
     - "kiali.jkops.me"
     - "grafana.jkops.me"
+    - "app.jkops.me"
