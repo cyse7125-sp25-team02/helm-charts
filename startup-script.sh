@@ -146,6 +146,27 @@ process_trace_processor_chart() {
     helm_install "$chart_dir" "$release_name" "values.yaml"
 }
 
+# Process Streamlit LLM Interface chart
+process_streamlit_llm_interface_chart() {
+    local project_root="$1"
+    local streamlit_folder="streamlit-llm-interface"
+    local release_name="streamlit-llm-interface"
+    local chart_dir="$project_root/$streamlit_folder"
+
+    if [ ! -d "$chart_dir" ]; then
+        log "ERROR" "Chart folder not found: $chart_dir"
+        exit 1
+    fi
+
+    log "INFO" "Processing Streamlit LLM Interface chart in $chart_dir"
+
+    # Decrypt SOPS values
+    decrypt_sops_values "$chart_dir" "values.enc.yaml" "values.yaml"
+
+    # Install Helm chart
+    helm_install "$chart_dir" "$release_name" "values.yaml"
+}
+
 # Process Kafka chart
 process_kafka_chart() {
     local project_root="$1"
@@ -218,6 +239,7 @@ main() {
     process_api_server_chart "$project_root"
     process_db_backup_operator_chart "$project_root"
     process_trace_processor_chart "$project_root"
+    process_streamlit_llm_interface_chart "$project_root"
 
     log "INFO" "Kafka chart deployment completed successfully"
 }
