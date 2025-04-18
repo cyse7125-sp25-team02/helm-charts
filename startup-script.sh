@@ -184,6 +184,13 @@ process_kafka_chart() {
     # Decrypt SOPS values
     decrypt_sops_values "$chart_dir" "values.enc.yaml" "values.yaml"
 
+    # Install Helm chart dependencies
+    helm dependency update "$chart_dir" || {
+        log "ERROR" "Failed to update Helm dependencies"
+        exit 1
+    }
+    log "INFO" "Helm dependencies updated successfully"
+
     # Install Helm chart
     helm_install "$chart_dir" "$release_name" "values.yaml"
 
