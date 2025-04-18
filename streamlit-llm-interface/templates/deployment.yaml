@@ -59,6 +59,11 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-application-secrets
               key: TOP_K
+        - name: SIMILARITY_THRESHOLD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-application-secrets
+              key: SIMILARITY_THRESHOLD
         resources:
           requests:
             cpu: "100m"
