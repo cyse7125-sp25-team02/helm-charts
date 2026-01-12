@@ -36,7 +36,7 @@ decrypt_sops_values() {
     log "INFO" "Decrypted values written to: $chart_dir/$output_file"
 }
 
-# Perform Helm install
+# Perform Helm install or upgrade
 helm_install() {
     local chart_dir="$1"
     local release_name="$2"
@@ -47,13 +47,22 @@ helm_install() {
         exit 1
     fi
 
-    log "INFO" "Installing Helm chart in $chart_dir with release $release_name"
-
-    helm install "$release_name" "$chart_dir" --values="$chart_dir/$values_file" || {
-        log "ERROR" "Helm install -failed"
-        exit 1
-    }
-    log "INFO" "Helm chart $release_name installed successfully"
+    # Check if release already exists
+    if helm list --all-namespaces | grep -q "^${release_name}[[:space:]]"; then
+        log "INFO" "Upgrading existing Helm release $release_name in $chart_dir"
+        helm upgrade "$release_name" "$chart_dir" --values="$chart_dir/$values_file" || {
+            log "ERROR" "Helm upgrade failed"
+            exit 1
+        }
+        log "INFO" "Helm chart $release_name upgraded successfully"
+    else
+        log "INFO" "Installing Helm chart in $chart_dir with release $release_name"
+        helm install "$release_name" "$chart_dir" --values="$chart_dir/$values_file" || {
+            log "ERROR" "Helm install failed"
+            exit 1
+        }
+        log "INFO" "Helm chart $release_name installed successfully"
+    fi
 }
 
 # Process Cert Manager chart
@@ -205,23 +214,38 @@ create_kafka_topic() {
     local max_retries=10
     local retry_interval=10
     local attempt=1
-    local topic_command="kubectl exec -it pdf-upload-kafka-broker-0 -n kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --create --topic $release_name --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1"
 
-    log "INFO" "Attempting to create Kafka topic"
+    log "INFO" "Attempting to create Kafka topic: $release_name"
+    
+    # Wait for Kafka pod to be ready
+    log "INFO" "Waiting for Kafka pod to be ready..."
+    kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=kafka -n kafka --timeout=300s || {
+        log "WARNING" "Kafka pod readiness timeout, attempting topic creation anyway"
+    }
+    
     while [ $attempt -le $max_retries ]; do
-        if $topic_command; then
-            log "INFO" "Kafka topic created successfully"
-            return 0
+        # Try to find the correct pod and container name dynamically
+        local pod_name=$(kubectl get pods -n kafka -l app.kubernetes.io/name=kafka -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+        
+        if [ -z "$pod_name" ]; then
+            log "WARNING" "Attempt $attempt/$max_retries: Could not find Kafka pod"
         else
-            log "WARNING" "Attempt $attempt/$max_retries failed to create Kafka topic"
-            if [ $attempt -eq $max_retries ]; then
-                log "ERROR" "Max retries reached. Failed to create Kafka topic."
-                exit 1
+            log "INFO" "Found Kafka pod: $pod_name"
+            # Try with controller-0 first, then broker-0
+            if kubectl exec "$pod_name" -n kafka -c kafka -- /opt/bitnami/kafka/bin/kafka-topics.sh --create --topic "$release_name" --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1 2>/dev/null; then
+                log "INFO" "Kafka topic created successfully"
+                return 0
             fi
-            log "INFO" "Retrying in $retry_interval seconds..."
-            sleep $retry_interval
-            ((attempt++))
         fi
+        
+        log "WARNING" "Attempt $attempt/$max_retries failed to create Kafka topic"
+        if [ $attempt -eq $max_retries ]; then
+            log "ERROR" "Max retries reached. Failed to create Kafka topic."
+            exit 1
+        fi
+        log "INFO" "Retrying in $retry_interval seconds..."
+        sleep $retry_interval
+        ((attempt++))
     done
 }
 
